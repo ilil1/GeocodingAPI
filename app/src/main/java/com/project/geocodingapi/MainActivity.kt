@@ -108,9 +108,9 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
     }
 
     fun getReverseGeoInformation(locationLatLngEntity: LocationEntity) {
-        uiScope.launch {
 
-            withContext(Dispatchers.IO) {
+        uiScope.launch {
+            withContext(Dispatchers.Main) {
 
                 val response = RetrofitUtil.mapApiService.getReverseGeoCode(
                     lat = locationLatLngEntity.latitude,
@@ -118,18 +118,11 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
                 )
 
                 if (response.isSuccessful) {
-
                     val body = response.body()
-                    withContext(Dispatchers.Main) {
-                        body?.let {
-
-                            Toast.makeText(this@MainActivity,
-                                "현재위치: " + body.addressInfo.legalDong,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            binding.locationTitleTextView.text = "${body.addressInfo.fullAddress}"
-                        }
-                    }
+//                    withContext(Dispatchers.Main) {
+//                        binding.locationTitleTextView.text = "${body?.addressInfo?.fullAddress}"
+//                    }
+                    binding.locationTitleTextView.text = "${body?.addressInfo?.fullAddress}"
                 }
                 else {
                     null
@@ -138,14 +131,14 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater); // 1
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         job = Job()
-        uiScope = CoroutineScope(Dispatchers.Main + job) // UI와 상호작용하거나 빠른 작업을 위해 메인스레드에서 코루틴 실행
+        //uiScope = CoroutineScope(Dispatchers.Main+job)
+        uiScope = CoroutineScope(Dispatchers.Main) // UI와 상호작용하거나 빠른 작업을 위해 메인스레드에서 코루틴 실행
 
         getMylocation()
     }

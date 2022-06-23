@@ -18,6 +18,4 @@ interface MapApiService {
         @Query("coordType") coordType: String? = null,
         @Query("addressType") addressType: String? = null
     ): Response<AddressInfoResponse>
-    //Response<AddressInfoResponse>
-    //Response<AddressInfo>
 }

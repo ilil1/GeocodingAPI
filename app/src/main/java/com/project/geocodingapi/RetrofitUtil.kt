@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitUtil {
+
     val mapApiService: MapApiService by lazy {
         getRetrofit().create(MapApiService::class.java)
     }
