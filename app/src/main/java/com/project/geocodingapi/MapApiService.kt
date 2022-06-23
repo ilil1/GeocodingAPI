@@ -10,7 +10,6 @@ interface MapApiService {
     @GET(Url.GET_TMAP_REVERSE_GEO_CODE)
     suspend fun getReverseGeoCode(
         @Header("appKey") appKey: String = Key.TMAP_API,
-
         @Query("version") version: Int = 1,
         @Query("callback") callback: String? = null,
         @Query("lat") lat: Double,

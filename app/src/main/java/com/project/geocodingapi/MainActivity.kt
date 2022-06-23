@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
 
     private val permissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+
             val responsePermissions = permissions.entries.filter {
                 it.key in locationPermissions //일치성 여부 확인.
             }
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
         }
     }
 
+
     @Suppress("MissingPermission")
     private fun setLocationListener() {
         val minTime: Long = 1500
@@ -75,7 +77,6 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
                 LocationManager.GPS_PROVIDER,
                 minTime, minDistance, myLocationListener
             )
-
             requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER,
                 minTime, minDistance, myLocationListener
@@ -85,8 +86,9 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
 
     inner class MyLocationListener : LocationListener {
         override fun onLocationChanged(location: Location) {
-            Toast.makeText(this@MainActivity, "${location.latitude}, ${location.longitude}", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this@MainActivity,
+                "${location.latitude}, ${location.longitude}",
+                Toast.LENGTH_SHORT).show()
 
             //binding.locationTitleTextView.text = "${location.latitude}, ${location.longitude}"
 
