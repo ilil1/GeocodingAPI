@@ -86,9 +86,6 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
 
     inner class MyLocationListener : LocationListener {
         override fun onLocationChanged(location: Location) {
-            Toast.makeText(this@MainActivity,
-                "${location.latitude}, ${location.longitude}",
-                Toast.LENGTH_SHORT).show()
 
             //binding.locationTitleTextView.text = "${location.latitude}, ${location.longitude}"
 
@@ -97,8 +94,6 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
                     longitude = location.longitude
                 )
             )
-
-            //binding.locationTitleTextView.text = mapSearchInfoEntity.fullAddress
             removeLocationListener()
         }
 
@@ -112,7 +107,7 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
     fun getReverseGeoInformation(locationLatLngEntity: LocationEntity) {
 
         uiScope.launch {
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
 
                 val response = RetrofitUtil.mapApiService.getReverseGeoCode(
                     lat = locationLatLngEntity.latitude,
@@ -121,10 +116,9 @@ class MainActivity : AppCompatActivity() , CoroutineScope {
 
                 if (response.isSuccessful) {
                     val body = response.body()
-//                    withContext(Dispatchers.Main) {
-//                        binding.locationTitleTextView.text = "${body?.addressInfo?.fullAddress}"
-//                    }
-                    binding.locationTitleTextView.text = "${body?.addressInfo?.fullAddress}"
+                    withContext(Dispatchers.Main) {
+                        binding.locationTitleTextView.text = "${body?.addressInfo?.fullAddress}"
+                    }
                 }
                 else {
                     null
